@@ -12,13 +12,13 @@ sys.path.append('../src/')
 
 from model_light import UNet
 from SSNet import SSNetFinal
-from dataset import SSSDataset
+from dataset_line import SSSDataset
 from loss import DiscriminativeLoss
 from PIL import Image
 import os
 
 n_sticks = 8
-max_n_sticks = 100
+max_n_sticks = 200
 n_clusters = 8
 random_n = True
 
@@ -27,13 +27,13 @@ model = UNet().cuda()
 # model = SSNetFinal().cuda()
 
 # Dataset for train
-train_dataset = SSSDataset(train=True, n_sticks=n_sticks, max_n_sticks = max_n_sticks, random_n = random_n)
-train_dataloader = DataLoader(train_dataset, batch_size=4,
+train_dataset = SSSDataset(train=True, n_sticks=n_sticks, max_n_sticks = max_n_sticks, random_n = random_n, img_size = 128)
+train_dataloader = DataLoader(train_dataset, batch_size= 4  ,
                               shuffle=False, num_workers=6, pin_memory=True)
 
 # Loss Function
-criterion_disc = DiscriminativeLoss(delta_var=0.5,
-                                    delta_dist=1.5,
+criterion_disc = DiscriminativeLoss(delta_var=0.01, # 0.5
+                                    delta_dist=5,  #1.5
                                     norm=2,
                                     usegpu=True).cuda()
 criterion_ce = nn.CrossEntropyLoss().cuda()
