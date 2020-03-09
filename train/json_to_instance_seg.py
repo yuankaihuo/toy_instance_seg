@@ -92,7 +92,7 @@ def main():
     model.eval()
 
     model_dir = Path('../model')
-    model_path = model_dir.joinpath('model.pth')
+    model_path = model_dir.joinpath('model_128_200max_0-1_2.pth')
 
     param = torch.load(model_path)
     model.load_state_dict(param)
